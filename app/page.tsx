@@ -26,8 +26,16 @@ type DayEntry = {
   note: string;
 };
 
+function toLocalDateStr(d: Date) {
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0"),
+  ].join("-");
+}
+
 function getTodayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return toLocalDateStr(new Date());
 }
 
 function formatDate(dateStr: string) {
@@ -112,7 +120,7 @@ export default function Home() {
   function goDay(delta: number) {
     const d = new Date(currentDate + "T00:00:00");
     d.setDate(d.getDate() + delta);
-    const next = d.toISOString().slice(0, 10);
+    const next = toLocalDateStr(d);
     if (next <= today) setCurrentDate(next);
   }
 
